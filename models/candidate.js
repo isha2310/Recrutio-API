@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const CandidatePost = require('./candidatePost')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const candidateSchema = new mongoose.Schema(
     {
@@ -118,12 +118,6 @@ candidateSchema.methods.generateAuthToken = async function() {
     candidate.tokens = candidate.tokens.concat({ token })
     await candidate.save()
     return token
-}
-
-candidateSchema.methods.authenticate = function(password) {
-    if(bcrypt.compare(password, this.password))
-        return true
-  return false
 }
 
 module.exports = mongoose.model('Candidate', candidateSchema)

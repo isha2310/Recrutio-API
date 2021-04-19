@@ -1,6 +1,7 @@
 const Candidate = require('../models/candidate')
 const Recruiter = require('../models/recruiter')
 const {validationResult} = require('express-validator')
+const bcrypt = require('bcryptjs')
 
 exports.signupCandidate = async (req,res) => {
 
@@ -16,8 +17,8 @@ exports.signupCandidate = async (req,res) => {
 
     try{
         await candidate.save()
-        .then((candidate) => {
-            const token = candidate.generateAuthToken()
+        .then(async (candidate) => {
+            const token = await candidate.generateAuthToken()
             const { _id, name } = candidate
             res.status(201).send({ candidate: {_id, name } , token})
         })
@@ -42,8 +43,8 @@ exports.signupRecruiter = async (req,res) => {
 
     try{
         await recruiter.save()
-        .then((recruiter) => {
-            const token = recruiter.generateAuthToken()
+        .then(async (recruiter) => {
+            const token = await recruiter.generateAuthToken()
             const { _id, name } = recruiter
             res.status(201).send({ recruiter: {_id, name } , token})
         })
@@ -65,15 +66,29 @@ exports.loginCandidate = async (req,res) => {
                     error: "User doesn't exist."
                 })
             } 
-            if(!candidate.authenticate(password)) {
-                return res.status(400).json({
-                    errors: 'Email and password do not match.'
-                })
-            }
-            const token = await candidate.generateAuthToken()
-            candidate.password = undefined
-            await candidate.populate('posts').execPopulate()
-            res.status(201).send({ candidate , token, posts: candidate.posts})
+            // let res1 = await candidate.authenticate(candidate.password,password)
+            // console.log(res1)
+            // if(res1 === false) {  
+            //     //return res.status(400).json(res1)
+            //     return res.status(400).json({
+            //         errors: 'Email and password do not match.'
+            //     })
+            // }
+            bcrypt.compare(password, candidate.password)
+            .then(async (res1) => {
+                if(res1 ){
+                    const token = await candidate.generateAuthToken()
+                    candidate.password = undefined
+                    await candidate.populate('posts').execPopulate()
+                    res.status(201).send({ candidate , token, posts: candidate.posts})
+                }
+                else if(res1 === false){
+                    return res.status(400).json({
+                        errors: 'Email and password do not match.'
+                    }) 
+                }
+            }) 
+            .catch((e) => console.log(e))
         })
     } catch(e) {
         res.status(400).send(e)
@@ -91,15 +106,21 @@ exports.loginRecruiter = async (req,res) => {
                     error: "User doesn't exist."
                 })
             } 
-            if(!recruiter.authenticate(password)) {
-                return res.status(400).json({
-                    errors: 'Email and password do not match.'
-                })
-            }
-            const token = await recruiter.generateAuthToken()
-            recruiter.password = undefined
-            await recruiter.populate('jobPosts').execPopulate()
-            res.status(201).send({ recruiter , token, jobPosts: recruiter.jobPosts})
+            bcrypt.compare(password, recruiter.password)
+            .then(async (res1) => {
+                if(res1 ){
+                    const token = await recruiter.generateAuthToken()
+                    recruiter.password = undefined
+                    await recruiter.populate('jobPosts').execPopulate()
+                    res.status(201).send({ recruiter , token, jobPosts: recruiter.jobPosts})
+                }
+                else if(res1 === false){
+                    return res.status(400).json({
+                        errors: 'Email and password do not match.'
+                    }) 
+                }
+            }) 
+            .catch((e) => console.log(e))
         })
     } catch(e) {
         res.status(400).send(e)

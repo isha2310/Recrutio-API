@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const RecruiterPost = require('./recruiterPost')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const recruiterSchema = new mongoose.Schema(
     {      
@@ -65,12 +65,6 @@ recruiterSchema.methods.generateAuthToken = async function() {
     recruiter.tokens = recruiter.tokens.concat({ token })
     await recruiter.save()
     return token
-}
-
-recruiterSchema.methods.authenticate = function(password) {
-    if(bcrypt.compare(password, this.password))
-        return true
-  return false
 }
 
 module.exports = mongoose.model('Recruiter', recruiterSchema)
