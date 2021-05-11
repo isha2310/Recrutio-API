@@ -19,8 +19,8 @@ exports.signupCandidate = async (req,res) => {
         await candidate.save()
         .then(async (candidate) => {
             const token = await candidate.generateAuthToken()
-            const { _id, name } = candidate
-            res.status(201).send({ candidate: {_id, name } , token})
+            const { _id, name, email } = candidate
+            res.status(201).send({ candidate: {_id, name, email } , token})
         })
         .catch((e) => res.status(400).send(e))
     } catch(e) {
@@ -45,8 +45,8 @@ exports.signupRecruiter = async (req,res) => {
         await recruiter.save()
         .then(async (recruiter) => {
             const token = await recruiter.generateAuthToken()
-            const { _id, name } = recruiter
-            res.status(201).send({ recruiter: {_id, name } , token})
+            const { _id, name, email } = recruiter
+            res.status(201).send({ recruiter: {_id, name, email } , token})
         })
         .catch((e) => res.status(400).send(e))
     } catch(e) {
@@ -65,15 +65,7 @@ exports.loginCandidate = async (req,res) => {
                 return res.status(400).json({
                     error: "User doesn't exist."
                 })
-            } 
-            // let res1 = await candidate.authenticate(candidate.password,password)
-            // console.log(res1)
-            // if(res1 === false) {  
-            //     //return res.status(400).json(res1)
-            //     return res.status(400).json({
-            //         errors: 'Email and password do not match.'
-            //     })
-            // }
+            }
             bcrypt.compare(password, candidate.password)
             .then(async (res1) => {
                 if(res1 ){
