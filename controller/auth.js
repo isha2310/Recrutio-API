@@ -70,9 +70,8 @@ exports.loginCandidate = async (req,res) => {
             .then(async (res1) => {
                 if(res1 ){
                     const token = await candidate.generateAuthToken()
-                    candidate.password = undefined
-                    await candidate.populate('posts').execPopulate()
-                    res.status(201).send({ candidate , token, posts: candidate.posts})
+                    const { _id, name, email } = candidate
+                    res.status(201).send({ candidate:{_id, name, email} , token, posts: candidate.posts})
                 }
                 else if(res1 === false){
                     return res.status(400).json({
@@ -102,9 +101,8 @@ exports.loginRecruiter = async (req,res) => {
             .then(async (res1) => {
                 if(res1 ){
                     const token = await recruiter.generateAuthToken()
-                    recruiter.password = undefined
-                    await recruiter.populate('jobPosts').execPopulate()
-                    res.status(201).send({ recruiter , token, jobPosts: recruiter.jobPosts})
+                    const { _id, name, email } = recruiter
+                    res.status(201).send({ recruiter: {_id, name, email } , token })
                 }
                 else if(res1 === false){
                     return res.status(400).json({
