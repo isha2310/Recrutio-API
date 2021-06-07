@@ -5,7 +5,7 @@ const CandidatePost = require('../models/candidatePost')
 exports.updateCandidateProfile = async (req,res) => {
 
     const updates = Object.keys(req.body)
-    const allowedValidation = ['name', 'email', 'password', 'gender', 'skills', 'bio', 'experience', 'education']
+    const allowedValidation = ['name', 'email', 'password', 'gender', 'skills', 'bio', 'experience', 'education','address', 'phnNumber']
     const isValid = updates.every((update) => allowedValidation.includes(update))
     if (! isValid) {
         return res.status(400).send({error : 'Invalid data'})
