@@ -11,6 +11,12 @@ const recruiterSchema = new mongoose.Schema(
             required: true,
             trim: true,           
         },
+        address: {
+            type: String
+        },
+        phnNumber: {
+            type: String
+        },
         password: {
             type: String,
             required: true,

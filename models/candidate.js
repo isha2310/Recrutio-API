@@ -14,14 +14,13 @@ const candidateSchema = new mongoose.Schema(
         address: {
             type: String
         },
-        links: [String],
         password: {
             type: String,
             required: true,
             trim: true
         },
         phnNumber: {
-            type: Number
+            type: String
         },
         email: {
             type: String,
