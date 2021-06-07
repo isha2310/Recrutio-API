@@ -11,10 +11,17 @@ const candidateSchema = new mongoose.Schema(
             required: true,
             trim: true,           
         },
+        address: {
+            type: String
+        },
+        links: [String],
         password: {
             type: String,
             required: true,
             trim: true
+        },
+        phnNumber: {
+            type: Number
         },
         email: {
             type: String,
