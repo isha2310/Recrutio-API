@@ -2,6 +2,14 @@ const Candidate = require('../models/candidate')
 const sharp = require('sharp')
 const CandidatePost = require('../models/candidatePost')
 
+const isPreflight = (req) => {
+    return (
+      req.method === 'OPTIONS' &&
+      req.headers['origin'] &&
+      req.headers['access-control-request-method']
+    )
+}
+
 exports.updateCandidateProfile = async (req,res) => {
 
     const updates = Object.keys(req.body)
@@ -21,11 +29,17 @@ exports.updateCandidateProfile = async (req,res) => {
 }
 
 exports.uploadCandidatePic = async (req,res) => {
+
+    res.set('Access-Control-Allow-Origin','*')
+    
+    if (isPreflight(req)) {
+        res.set('Access-Control-Allow-Methods', 'POST') 
+       
+    }
     
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
     req.candidate.snap = buffer
     await req.candidate.save()
-    res.set('Access-Control-Allow-Origin','*')
     res.send(req.candidate)
 }
 
