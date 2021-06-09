@@ -29,7 +29,7 @@ exports.uploadCandidatePic = async (req,res) => {
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
     req.candidate.snap = buffer
     await req.candidate.save()
-    res.send(req.candidate)
+    return res.status(200).send(req.candidate)
 }
 
 exports.uploadPost = (req,res) => {
