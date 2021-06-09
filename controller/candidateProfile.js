@@ -34,7 +34,7 @@ exports.uploadCandidatePic = async (req,res) => {
     
     if (isPreflight(req)) {
         res.set('Access-Control-Allow-Methods', 'POST') 
-       
+        res.set("Access-Control-Allow-Headers", 'Content-Type')
     }
     
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
