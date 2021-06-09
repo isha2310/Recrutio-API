@@ -24,7 +24,7 @@ exports.uploadCandidatePic = async (req,res) => {
 
     res.set('Access-Control-Allow-Origin','*')
     res.set('Access-Control-Allow-Methods', 'POST') 
-    res.set("Access-Control-Allow-Headers", 'Content-Type')
+    res.set("Access-Control-Allow-Headers", 'Content-Type', 'Access-Control-Allow-Origin')
     
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
     req.candidate.snap = buffer
