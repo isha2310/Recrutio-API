@@ -20,10 +20,10 @@ mongoose.connect(process.env.DATABASE,
 })
 .then(() => console.log('Connected'))
 .catch((err) => console.log(err))
-
+app.options('*', cors())
 app.use(cookieParser())
 app.use(express.json());
-app.use(cors({origin: '*'}))
+//app.use(cors({origin: '*'}))
 
 app.use('/api', authRoutes)
 app.use('/api', candidateRoutes)
