@@ -22,9 +22,12 @@ exports.updateCandidateProfile = async (req,res) => {
 
 exports.uploadCandidatePic = async (req,res) => {
 
-    res.set('Access-Control-Allow-Origin','*')
+    let origin = req.get('Origin')
+
+    res.set('Access-Control-Allow-Origin', origin)
+    res.set('Access-Control-Allow-Credentials', true)
     res.set('Access-Control-Allow-Methods', 'POST') 
-    res.set("Access-Control-Allow-Headers", 'Content-Type', 'Access-Control-Allow-Origin')
+    res.set("Access-Control-Allow-Headers", 'Content-Type, Access-Control-Allow-Origin, Origin')
     
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
     req.candidate.snap = buffer
