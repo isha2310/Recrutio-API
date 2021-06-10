@@ -24,10 +24,10 @@ exports.uploadCandidatePic = async (req,res) => {
 
     let origin = req.get('Origin')
 
-    res.set('Access-Control-Allow-Origin', origin)
-    res.set('Access-Control-Allow-Credentials', true)
-    res.set('Access-Control-Allow-Methods', 'POST') 
-    res.set("Access-Control-Allow-Headers", 'Content-Type, Access-Control-Allow-Origin, Origin')
+    res.header('Access-Control-Allow-Origin', origin)
+    res.header('Access-Control-Allow-Credentials', true)
+    res.header('Access-Control-Allow-Methods', 'POST') 
+    res.header("Access-Control-Allow-Headers", '*')
     
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
     req.candidate.snap = buffer
