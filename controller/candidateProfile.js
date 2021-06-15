@@ -35,11 +35,23 @@ exports.uploadCandidatePic = async (req,res) => {
     return res.status(200).send(req.candidate)
 }
 
-exports.uploadPost = (req,res) => {
+exports.uploadPost = async (req,res) => {
     const post = new CandidatePost({
         ...req.body,
         candidateId: req.candidate._id
     })
+    
+    if(req.files){
+        post.snaps=[]
+        await Promise.all(
+            req.files.map(async file => {
+              let buffer = await sharp(file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
+        
+              post.snaps.push(buffer);
+            })
+          );
+    }
+
     try{
         post.save()
         .then((post) => res.status(201).send(post))

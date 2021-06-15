@@ -14,7 +14,9 @@ router.post('/candidate/snap', candidateAuth, upload.single('snap'), uploadCandi
     res.status(400).send({error: error.message})
 })
 
-router.post('/candidate/post', candidateAuth, uploadPost)
+router.post('/candidate/post', candidateAuth, upload.array('snaps', 10), uploadPost, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
+})
 
 router.get('/allPosts', getAllPost)
 
