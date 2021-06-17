@@ -53,9 +53,8 @@ exports.uploadPost = async (req,res) => {
     }
 
     try{
-        let f = req.files
         post.save()
-        .then((post) => res.status(201).send({post, f}))
+        .then((post) => res.status(201).send(post))
         .catch((e) => res.status(400).send(e))
     } catch(e) {
         res.status(400).send(e)
