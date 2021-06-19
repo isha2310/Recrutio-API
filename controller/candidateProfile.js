@@ -38,7 +38,8 @@ exports.uploadCandidatePic = async (req,res) => {
 exports.uploadPost = async (req,res) => {
     const post = new CandidatePost({
         ...req.body,
-        candidateId: req.candidate._id
+        candidateId: req.candidate._id,
+        candidateName: req.candidate.name
     })
     
     if(req.files){

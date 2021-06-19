@@ -16,6 +16,10 @@ const candidatePostSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId , 
             required: true
         },
+        candidateName: {
+            type: String,
+            required: true
+        },
         technologies: {
             type: [String],
             required: true

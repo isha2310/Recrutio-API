@@ -30,7 +30,8 @@ exports.uploadRecruiterPic = async (req,res) => {
 exports.uploadJobPost = (req, res) => {
     const post = new RecruiterPost( {
         ...req.body,
-        recruiterId: req.recruiter._id
+        recruiterId: req.recruiter._id,
+        recruiterName: req.recruiter.name
     })
     try{
         post.save()

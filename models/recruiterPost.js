@@ -27,6 +27,10 @@ const recruiterPostSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId , 
             required: true
         },
+        recruiterName: {
+            type: String,
+            required: true
+        },
         candidateIds: {
             candidateId: {
                 type: mongoose.Schema.Types.ObjectId 
