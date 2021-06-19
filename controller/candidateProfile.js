@@ -46,7 +46,7 @@ exports.uploadPost = async (req,res) => {
         post.snaps=[]
         await Promise.all(
             req.files.map(async file => {
-              let buffer = await sharp(file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
+              let buffer = await sharp(file.buffer).resize({width: 300, fit: sharp.fit.contain}).jpeg({quality: 100}).toBuffer()
         
               post.snaps.push(buffer);
             })
