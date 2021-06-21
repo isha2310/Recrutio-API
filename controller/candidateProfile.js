@@ -53,8 +53,9 @@ exports.uploadPost = async (req,res) => {
                 const uploadResponse = await cloudinary.cloudinary.uploader.upload(f, {
                     upload_preset: 'recrutio',
                     overwrite: true,
+                    format: 'png'
                 })
-                post.snaps.push(uploadResponse.public_id)
+                post.snaps.push(uploadResponse.secure_url)
             }
         } catch (e) {
             res.status(400).send(e)
