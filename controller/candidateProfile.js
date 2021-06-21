@@ -49,7 +49,7 @@ exports.uploadPost = async (req,res) => {
             for(let i = 0; i< req.files.length; i++){
                 let file = Buffer.from(req.files[i].buffer)
                 file = file.toString('base64')
-                let f = 'data:image/jpeg;base64,' + file
+                let f = 'data:image/png;base64,' + file
                 const uploadResponse = await cloudinary.cloudinary.uploader.upload(f, {
                     upload_preset: 'recrutio',
                     overwrite: true,
