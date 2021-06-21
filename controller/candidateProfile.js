@@ -1,6 +1,7 @@
 const Candidate = require('../models/candidate')
 const sharp = require('sharp')
 const CandidatePost = require('../models/candidatePost')
+const cloudinary = require('./cloudinary')
 
 exports.updateCandidateProfile = async (req,res) => {
 
@@ -41,19 +42,26 @@ exports.uploadPost = async (req,res) => {
         candidateId: req.candidate._id,
         candidateName: req.candidate.name
     })
-    
-    if(req.files){
-        post.snaps=[]
-        await Promise.all(
-            req.files.map(async file => {
-              let buffer = await sharp(file.buffer).jpeg({quality: 100,chromaSubsampling: '4:4:4'}).toBuffer()
-        
-              post.snaps.push(buffer);
-            })
-          );
-    }
-
+    if(req.files) {
+        post.snaps = []
+        console.log('yes')
+        try{
+            for(let i = 0; i< req.files.length; i++){
+                let file = Buffer.from(req.files[i].buffer)
+                file = file.toString('base64')
+                let f = 'data:image/jpeg;base64,' + file
+                const uploadResponse = await cloudinary.cloudinary.uploader.upload(f, {
+                    upload_preset: 'recrutio',
+                    overwrite: true,
+                })
+                post.snaps.push(uploadResponse.public_id)
+            }
+        } catch (e) {
+            res.status(400).send(e)
+        }
+    }    
     try{
+        console.log(post)
         post.save()
         .then((post) => res.status(201).send(post))
         .catch((e) => res.status(400).send(e))

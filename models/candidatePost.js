@@ -24,7 +24,7 @@ const candidatePostSchema = new mongoose.Schema(
             type: [String],
             required: true
         },
-        snaps: [Buffer],
+        snaps: [String],
         date: {
             type: Date,
             default: Date.now
