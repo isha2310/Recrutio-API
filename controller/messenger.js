@@ -17,7 +17,6 @@ exports.setConversation = async (req, res) => {
 }
 
 exports.getConversation = async (req, res) => {
-    console.log("ferfe")
     try {
         const conversation = await Conversation.find({
             members: { $in: [req.params.userId] },
@@ -49,4 +48,15 @@ exports.getMessages = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
+}
+
+exports.checkConversationId = async (req, res) => {
+try {
+    const conversation = await Conversation.findOne({
+        members: { $all: [req.params.firstUserId, req.params.secondUserId] },
+    });
+    res.status(200).json(conversation)
+} catch (err) {
+    res.status(500).json(err);
+}
 }
