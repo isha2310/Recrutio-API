@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser')
 const authRoutes = require('./routes/auth')
 const candidateRoutes = require('./routes/candidate')
 const recruiterRoutes = require('./routes/recruiter')
+const messengerRoutes = require('./routes/messenger')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -30,6 +31,7 @@ app.use(cors({origin: '*'}))
 app.use('/api', authRoutes)
 app.use('/api', candidateRoutes)
 app.use('/api', recruiterRoutes)
+app.use('/api', messengerRoutes)
 
 app.listen(port, () => {
     console.log('App is ruuning at', port)
