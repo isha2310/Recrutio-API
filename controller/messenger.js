@@ -6,6 +6,7 @@ exports.setConversation = async (req, res) => {
 
     const newConversation = new Conversation({
         members: [req.body.senderId, req.body.receiverId],
+        counter: 1
     });
 
     try {

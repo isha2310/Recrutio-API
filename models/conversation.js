@@ -6,8 +6,7 @@ const ConversationSchema = new mongoose.Schema(
             type: Array,
         },
         counter: {
-            type: Number,
-            default: 1
+            type: Number
         }
     },
     { timestamps: true }

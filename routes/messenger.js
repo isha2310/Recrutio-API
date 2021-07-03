@@ -15,6 +15,6 @@ router.get('/message/:conversationId', getMessages)
 
 router.get('/conversation/find/:firstUserId/:secondUserId', checkConversationId)
 
-router.patch('converstaionUpdate/:conversationId', updateConversation)
+router.patch('/conversationUpdate/:conversationId', updateConversation)
 
 module.exports = router
