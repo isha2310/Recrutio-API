@@ -60,3 +60,14 @@ try {
     res.status(500).json(err);
 }
 }
+
+exports.updateConversation = async (req, res) => {
+    try{
+        const conversation = await Conversation.findById(req.params.conversationId)
+        conversation.counter = conversation.counter+1
+        await conversation.save()
+        res.status(200).send(conversation)
+    } catch(e) {
+        res.status(404).send(e)
+    }
+}

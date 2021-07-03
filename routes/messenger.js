@@ -1,5 +1,5 @@
 const express = require('express')
-const { setConversation, getConversation, setMessage, getMessages, checkConversationId } = require('../controller/messenger')
+const { setConversation, getConversation, setMessage, getMessages, checkConversationId, updateConversation } = require('../controller/messenger')
 
 const router = express.Router()
 
@@ -15,5 +15,6 @@ router.get('/message/:conversationId', getMessages)
 
 router.get('/conversation/find/:firstUserId/:secondUserId', checkConversationId)
 
+router.patch('converstaionUpdate/:conversationId', updateConversation)
 
 module.exports = router
