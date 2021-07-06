@@ -75,7 +75,7 @@ exports.loginCandidate = async (req,res) => {
                 }
                 else if(res1 === false){
                     return res.status(400).json({
-                        errors: 'Email and password do not match.'
+                        error: 'Email and password do not match.'
                     }) 
                 }
             }) 
@@ -106,7 +106,7 @@ exports.loginRecruiter = async (req,res) => {
                 }
                 else if(res1 === false){
                     return res.status(400).json({
-                        errors: 'Email and password do not match.'
+                        error: 'Email and password do not match.'
                     }) 
                 }
             }) 
