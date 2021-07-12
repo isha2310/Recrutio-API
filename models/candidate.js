@@ -93,6 +93,7 @@ const candidateSchema = new mongoose.Schema(
         snap: {
             type: Buffer
         },
+        appliedJobs: [ mongoose.Schema.Types.ObjectId ],
         tokens: [{
             token: {
                 type: String,

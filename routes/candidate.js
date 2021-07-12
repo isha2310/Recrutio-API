@@ -1,5 +1,5 @@
 const express = require('express')
-const { updateCandidateProfile, uploadCandidatePic, uploadPost, getAllCandidate, getAllPost, getCandidateById } = require('../controller/candidateProfile')
+const { updateCandidateProfile, uploadCandidatePic, uploadPost, getAllCandidate, getAllPost, getCandidateById, deletePost, applyJob } = require('../controller/candidateProfile')
 const { candidateAuth, upload } = require('../controller/middleware')
 
 const router = express.Router()
@@ -19,5 +19,9 @@ router.post('/candidate/post', candidateAuth, upload.array('snaps', 10), uploadP
 })
 
 router.get('/allPosts', getAllPost)
+
+router.delete('/candidate/post/:id', candidateAuth, deletePost)
+
+router.patch('/applyJob/:postId', candidateAuth, applyJob)
 
 module.exports = router

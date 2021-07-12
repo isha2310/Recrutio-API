@@ -31,11 +31,8 @@ const recruiterPostSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        candidateIds: {
-            candidateId: {
-                type: mongoose.Schema.Types.ObjectId 
-            }  
-        }
+        candidateIds: [ mongoose.Schema.Types.ObjectId ]  
+        
     },
     {timestamps: true}
 )

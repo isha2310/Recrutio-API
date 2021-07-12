@@ -2,6 +2,7 @@ const Candidate = require('../models/candidate')
 const sharp = require('sharp')
 const CandidatePost = require('../models/candidatePost')
 const cloudinary = require('./cloudinary')
+const RecruiterPost = require('../models/recruiterPost')
 
 exports.updateCandidateProfile = async (req,res) => {
 
@@ -105,4 +106,39 @@ exports.getCandidateById = async (req, res) => {
             res.status(400).send(e)
         }
     })
+}
+
+exports.deletePost = async (req, res) => {
+    try{
+        const post = await CandidatePost.findOneAndDelete({_id: req.params.id})
+        if(!post){
+            res.status(404).send()
+        } 
+        res.status(200).send(post)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+}
+
+exports.applyJob = async (req, res) => {
+
+    try {
+        RecruiterPost.updateOne({_id: req.params.postId}, {
+            $push: {candidateIds: req.candidate._id}
+        })
+        .then(async (result) => {
+            try{
+                let jobIds = [req.params.postId, ...req.candidate.appliedJobs]
+                req.candidate.appliedJobs = jobIds
+                await req.candidate.save()
+                res.status(200).send(req.candidate)
+            } catch(e) {
+                res.status(400).send(e)
+            }
+        })
+        .catch((e) => res.status(404).send(e))
+    } catch (e) {
+        res.status(400).send(e)
+    }
+
 }

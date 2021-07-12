@@ -1,6 +1,6 @@
 const express = require('express')
 const { recruiterAuth, upload } = require('../controller/middleware')
-const { updateRecuiterProfile, uploadRecruiterPic, uploadJobPost, getRecruiterById, getAllRecruiters, getAllPosts } = require('../controller/recruiterProfile')
+const { updateRecuiterProfile, uploadRecruiterPic, uploadJobPost, getRecruiterById, getAllRecruiters, getAllPosts, deleteJobPost } = require('../controller/recruiterProfile')
 
 const router = express.Router()
 
@@ -17,5 +17,7 @@ router.post('/recruiter/snap', recruiterAuth, upload.single('snap'), uploadRecru
 router.post('/recruiter/jobPost', recruiterAuth, uploadJobPost)
 
 router.get('/allJobPosts', getAllPosts)
+
+router.delete('/recruiter/jobPost/:id', recruiterAuth, deleteJobPost)
 
 module.exports = router

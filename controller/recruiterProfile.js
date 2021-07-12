@@ -80,3 +80,15 @@ exports.getAllPosts = (req, res) => {
         }
     })
 }
+
+exports.deleteJobPost = async (req, res) => {
+    try{
+        const post = await RecruiterPost.findOneAndDelete({ _id: req.params.id })
+        if(!post){
+            res.status(404).send()
+        }
+        res.status(200).send(post)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+}
