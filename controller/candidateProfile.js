@@ -114,7 +114,8 @@ exports.deletePost = async (req, res) => {
         if(!post){
             res.status(404).send()
         } 
-        res.status(200).send({post, candidate: req.candidate })
+        await req.candidate.populate('posts').execPopulate()
+        res.status(200).send({post, posts: req.candidate.posts })
     } catch (e) {
         res.status(500).send(e)
     }
