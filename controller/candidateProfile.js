@@ -114,7 +114,7 @@ exports.deletePost = async (req, res) => {
         if(!post){
             res.status(404).send()
         } 
-        res.status(200).send(post)
+        res.status(200).send({post, candidate: req.candidate })
     } catch (e) {
         res.status(500).send(e)
     }
