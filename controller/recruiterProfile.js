@@ -13,6 +13,7 @@ exports.updateRecuiterProfile = async (req,res) => {
     try {
         updates.forEach((update) => req.recruiter[update] = req.body[update])
         await req.recruiter.save()
+        req.recruiter.password = undefined
         res.send(req.recruiter)
     } catch (e) {
         res.status(400).send(e)
@@ -87,7 +88,7 @@ exports.deleteJobPost = async (req, res) => {
         if(!post){
             res.status(404).send()
         }
-        await req.sharprecruiter.populate('jobPosts').execPopulate()
+        await req.recruiter.populate('jobPosts').execPopulate()
         res.status(200).send({post, jobPosts: req.recruiter.jobPosts})
     } catch (e) {
         res.status(500).send(e)

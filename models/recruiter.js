@@ -47,7 +47,8 @@ const recruiterSchema = new mongoose.Schema(
                 required: true
             }
         }]
-    }
+    },
+    {timestamps: true}
 )
 
 recruiterSchema.virtual('jobPosts', {

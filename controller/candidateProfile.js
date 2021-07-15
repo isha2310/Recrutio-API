@@ -15,6 +15,7 @@ exports.updateCandidateProfile = async (req,res) => {
     try {
         updates.forEach((update) => req.candidate[update] = req.body[update])
         await req.candidate.save()
+        req.candidate.password = undefined
         res.send(req.candidate)
     } catch (e) {
         res.status(400).send(e)
@@ -34,6 +35,7 @@ exports.uploadCandidatePic = async (req,res) => {
     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).jpeg().toBuffer()
     req.candidate.snap = buffer
     await req.candidate.save()
+    req.candidate.password = undefined
     return res.status(200).send(req.candidate)
 }
 
@@ -132,6 +134,7 @@ exports.applyJob = async (req, res) => {
                 let jobIds = [req.params.postId, ...req.candidate.appliedJobs]
                 req.candidate.appliedJobs = jobIds
                 await req.candidate.save()
+                req.candidate.password = undefined
                 res.status(200).send(req.candidate)
             } catch(e) {
                 res.status(400).send(e)
