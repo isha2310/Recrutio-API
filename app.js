@@ -9,19 +9,15 @@ const candidateRoutes = require('./routes/candidate')
 const recruiterRoutes = require('./routes/recruiter')
 const messengerRoutes = require('./routes/messenger')
 
-
-
-// const app = express()
 const port = process.env.PORT || 4000
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server,{
     cors: {
-        origin: "https://recrutio.netlify.app",
+        origin: "*"
+//        origin: "https://recrutio.netlify.app",
     },
 });
-
-
 
 mongoose.connect(process.env.DATABASE, 
     {
