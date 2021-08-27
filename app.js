@@ -18,7 +18,7 @@ const io = require('socket.io')(server,{
 //        origin: "https://recrutio.netlify.app",
     },
 });
-
+app.options('*', cors())
 mongoose.connect(process.env.DATABASE, 
     {
         useNewUrlParser: true,
